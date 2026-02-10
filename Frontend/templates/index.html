@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketAI Suite</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <h1><i class="fa-solid fa-robot"></i> MarketAI Suite</h1>
+        <p>Generative AI for Sales & Marketing</p>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('campaign')">
+                <i class="fa-solid fa-bullhorn"></i> Campaign
+            </div>
+            <div class="tab" onclick="showTab('pitch')">
+                <i class="fa-solid fa-handshake"></i> Sales Pitch
+            </div>
+            <div class="tab" onclick="showTab('score')">
+                <i class="fa-solid fa-chart-line"></i> Lead Score
+            </div>
+            <div class="tab" onclick="showTab('sentiment')">
+                <i class="fa-solid fa-smile"></i> Sentiment
+            </div>
+            <div class="tab" onclick="showTab('pricing')">
+                <i class="fa-solid fa-tag"></i> Pricing
+            </div>
+            <div class="tab" onclick="showTab('compliance')">
+                <i class="fa-solid fa-shield-alt"></i> Compliance
+            </div>
+            <div class="tab" onclick="showTab('chatbot')">
+                <i class="fa-solid fa-comments"></i> Chatbot
+            </div>
+            <div class="tab" onclick="showTab('prediction')">
+                <i class="fa-solid fa-crystal-ball"></i> Predict
+            </div>
+            <div class="tab" onclick="showTab('personalization')">
+                <i class="fa-solid fa-star"></i> Personalize
+            </div>
+            <!-- GENERATOR HUB TABS -->
+            <div class="tab-separator"></div>
+            <div class="tab" onclick="showTab('gen-campaign')">
+                <i class="fa-solid fa-rocket"></i> Gen Campaign
+            </div>
+            <div class="tab" onclick="showTab('gen-pitch')">
+                <i class="fa-solid fa-microphone"></i> Gen Pitch
+            </div>
+            <div class="tab" onclick="showTab('gen-score')">
+                <i class="fa-solid fa-score"></i> Gen Score
+            </div>
+        </div>
+
+        <div id="campaign" class="form-section active">
+            <h2>Generate Marketing Campaign</h2>
+            <form onsubmit="submitForm(event, '/api/campaign', 'campResult')">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" name="product" placeholder="e.g. AI Coffee Maker" required>
+                </div>
+                <div class="form-group">
+                    <label>Target Audience</label>
+                    <textarea name="audience" placeholder="e.g. Remote workers who love caffeine" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Platform</label>
+                    <select name="platform">
+                        <option value="LinkedIn">LinkedIn</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Email">Email Newsletter</option>
+                        <option value="Twitter">Twitter / X</option>
+                    </select>
+                </div>
+                <button type="submit">Generate Strategy</button>
+            </form>
+            <div id="campResult" class="output"></div>
+        </div>
+
+        <div id="pitch" class="form-section">
+            <h2>Create Sales Pitch (SPIN Method)</h2>
+            <form onsubmit="submitForm(event, '/api/pitch', 'pitchResult')">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" name="product" placeholder="e.g. Cloud Storage Pro" required>
+                </div>
+                <div class="form-group">
+                    <label>Customer Persona / Pain Points</label>
+                    <textarea name="customer" placeholder="e.g. CTO worried about data security" required></textarea>
+                </div>
+                <button type="submit">Generate Pitch</button>
+            </form>
+            <div id="pitchResult" class="output"></div>
+        </div>
+
+        <div id="score" class="form-section">
+            <h2>Intelligent Lead Scoring</h2>
+            <form onsubmit="submitForm(event, '/api/score', 'scoreResult')">
+                <div class="form-group">
+                    <label>Lead Name</label>
+                    <input type="text" name="name" placeholder="e.g. John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label>Budget</label>
+                    <input type="text" name="budget" placeholder="e.g. $50,000" required>
+                </div>
+                <div class="form-group">
+                    <label>Business Need</label>
+                    <input type="text" name="need" placeholder="e.g. Needs to cut costs by 20%" required>
+                </div>
+                <div class="form-group">
+                    <label>Urgency</label>
+                    <select name="urgency">
+                        <option value="High">High (Immediate)</option>
+                        <option value="Medium">Medium (This Quarter)</option>
+                        <option value="Low">Low (Next Year)</option>
+                    </select>
+                </div>
+                <button type="submit">Analyze Lead</button>
+            </form>
+            <div id="scoreResult" class="output"></div>
+        </div>
+
+        <!-- NEW MODULE 1: SENTIMENT ANALYSIS -->
+        <div id="sentiment" class="form-section">
+            <h2><i class="fa-solid fa-smile"></i> Market Sentiment Analysis</h2>
+            <form onsubmit="submitForm(event, '/api/market/sentiment', 'sentimentResult')">
+                <div class="form-group">
+                    <label>Customer Feedback</label>
+                    <textarea name="feedback" placeholder="Paste customer feedback here..." required></textarea>
+                </div>
+                <button type="submit">Analyze Sentiment</button>
+            </form>
+            <div id="sentimentResult" class="output"></div>
+        </div>
+
+        <!-- NEW MODULE 2: DYNAMIC PRICING ENGINE -->
+        <div id="pricing" class="form-section">
+            <h2><i class="fa-solid fa-tag"></i> Smart Pricing Engine</h2>
+            <form onsubmit="submitForm(event, '/api/pricing/optimize', 'pricingResult')">
+                <div class="form-group">
+                    <label>Product Cost ($)</label>
+                    <input type="number" step="0.01" name="cost" placeholder="e.g., 50" required>
+                </div>
+                <div class="form-group">
+                    <label>Demand Index (0.5-1.5)</label>
+                    <input type="number" step="0.1" min="0.5" max="1.5" name="demand_index" placeholder="e.g., 1.2" required>
+                </div>
+                <div class="form-group">
+                    <label>Competitor Price ($)</label>
+                    <input type="number" step="0.01" name="competitor_price" placeholder="e.g., 120" required>
+                </div>
+                <button type="submit">Calculate Optimal Price</button>
+            </form>
+            <div id="pricingResult" class="output"></div>
+        </div>
+
+        <!-- NEW MODULE 3: COMPLIANCE & RISK MONITORING -->
+        <div id="compliance" class="form-section">
+            <h2><i class="fa-solid fa-shield-alt"></i> Compliance & Risk Monitoring</h2>
+            <form onsubmit="submitForm(event, '/api/compliance/check', 'complianceResult')">
+                <div class="form-group">
+                    <label>Marketing Text</label>
+                    <textarea name="marketing_text" placeholder="Paste your marketing text here..." required></textarea>
+                </div>
+                <button type="submit">Check Compliance</button>
+            </form>
+            <div id="complianceResult" class="output"></div>
+        </div>
+
+        <!-- NEW MODULE 4: AI CHATBOT -->
+        <div id="chatbot" class="form-section">
+            <h2><i class="fa-solid fa-comments"></i> 24/7 AI Assistant</h2>
+            <div id="chatHistory" class="chat-history"></div>
+            <form onsubmit="handleChatSubmit(event)">
+                <div class="form-group">
+                    <label>Ask a Question</label>
+                    <input type="text" id="chatInput" placeholder="Ask anything..." required>
+                </div>
+                <button type="submit">Send</button>
+            </form>
+            <div id="chatbotResult" class="output"></div>
+        </div>
+
+        <!-- NEW MODULE 5: PREDICTIVE CUSTOMER ANALYTICS -->
+        <div id="prediction" class="form-section">
+            <h2><i class="fa-solid fa-crystal-ball"></i> Predictive Customer Analytics</h2>
+            <form onsubmit="submitForm(event, '/api/predict/customer', 'predictionResult')">
+                <div class="form-group">
+                    <label>Customer Interaction History</label>
+                    <textarea name="history_data" placeholder="Enter customer purchase history, visits, engagement, etc..." required></textarea>
+                </div>
+                <button type="submit">Predict Behavior</button>
+            </form>
+            <div id="predictionResult" class="output"></div>
+        </div>
+
+        <!-- NEW MODULE 6: PERSONALIZATION ENGINE -->
+        <div id="personalization" class="form-section">
+            <h2><i class="fa-solid fa-star"></i> Personalization Engine</h2>
+            <form onsubmit="submitForm(event, '/api/personalize', 'personalizationResult')">
+                <div class="form-group">
+                    <label>Customer Profile</label>
+                    <textarea name="user_profile" placeholder="Describe customer profile (interests, needs, demographics, etc)..." required></textarea>
+                </div>
+                <button type="submit">Get Recommendations</button>
+            </form>
+            <div id="personalizationResult" class="output"></div>
+        </div>
+
+        <!-- ==================== GENERATOR HUB SECTION ==================== -->
+        <div class="generator-hub-divider">💡 Generator Hub - Advanced Campaign & Sales Tools</div>
+
+        <!-- GENERATOR 1: AI MARKETING STRATEGIST -->
+        <div id="gen-campaign" class="form-section">
+            <h2><i class="fa-solid fa-rocket"></i> AI Marketing Strategist</h2>
+            <p class="section-description">Generate comprehensive B2B marketing campaigns with targeted content, ad copy variations, and platform-specific CTAs.</p>
+            <form onsubmit="submitFormJSON(event, '/api/generator/marketing-campaign', 'genCampaignResult')">
+                <div class="form-group">
+                    <label>Product Details</label>
+                    <textarea name="product_details" placeholder="Describe your product: features, benefits, pricing, target market, unique selling proposition, etc." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>LinkedIn Target Demographics</label>
+                    <textarea name="linkedin_demographics" placeholder="Target audience: job titles, industries, company sizes, seniority levels, pain points, decision-making authority, etc." required></textarea>
+                </div>
+                <button type="submit">Generate Campaign Strategy</button>
+            </form>
+            <div id="genCampaignResult" class="output">
+                <div class="shimmer-loader"></div>
+            </div>
+        </div>
+
+        <!-- GENERATOR 2: B2B SALES PITCH ARCHITECT -->
+        <div id="gen-pitch" class="form-section">
+            <h2><i class="fa-solid fa-microphone"></i> B2B Sales Pitch Architect</h2>
+            <p class="section-description">Create personalized sales pitches tailored to specific prospect roles and company tiers with discovery questions and objection handlers.</p>
+            <form onsubmit="submitFormJSON(event, '/api/generator/sales-pitch', 'genPitchResult')">
+                <div class="form-group">
+                    <label>Prospect Title</label>
+                    <input type="text" name="prospect_title" placeholder="e.g., IT Director, VP of Operations, CFO" required>
+                </div>
+                <div class="form-group">
+                    <label>Company Tier</label>
+                    <select name="company_tier" required>
+                        <option value="">Select company tier...</option>
+                        <option value="Fortune 500">Fortune 500</option>
+                        <option value="Large Enterprise (1000+ employees)">Large Enterprise (1000+ employees)</option>
+                        <option value="Mid-Market (250-1000 employees)">Mid-Market (250-1000 employees)</option>
+                        <option value="Small Business (50-250 employees)">Small Business (50-250 employees)</option>
+                        <option value="Startup (<50 employees)">Startup (<50 employees)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Product/Service Info (Optional)</label>
+                    <textarea name="product_info" placeholder="Brief description of your solution (optional)"></textarea>
+                </div>
+                <button type="submit">Generate Sales Pitch</button>
+            </form>
+            <div id="genPitchResult" class="output">
+                <div class="shimmer-loader"></div>
+            </div>
+        </div>
+
+        <!-- GENERATOR 3: INTELLIGENT LEAD SCORER -->
+        <div id="gen-score" class="form-section">
+            <h2><i class="fa-solid fa-chart-line"></i> Intelligent Lead Scorer</h2>
+            <p class="section-description">Intelligently score leads with hybrid algorithm + LLM reasoning. Get conversion probability and actionable sales strategy.</p>
+            <form onsubmit="submitFormJSON(event, '/api/generator/lead-score', 'genScoreResult')">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Budget</label>
+                        <input type="text" name="budget" placeholder="e.g., $50k, $250k, 1.5M" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Timeline</label>
+                        <select name="timeline" required>
+                            <option value="">Select timeline...</option>
+                            <option value="Immediate (This week)">Immediate (This week)</option>
+                            <option value="This Month">This Month</option>
+                            <option value="This Quarter">This Quarter</option>
+                            <option value="This Year">This Year</option>
+                            <option value="Next Year or Later">Next Year or Later</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Urgency Level</label>
+                        <select name="urgency" required>
+                            <option value="">Select urgency...</option>
+                            <option value="Critical/High">Critical/High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Additional Context (Optional)</label>
+                    <textarea name="additional_context" placeholder="Any additional information about this lead (industry, company growth, initiatives, etc.)"></textarea>
+                </div>
+                <button type="submit">Calculate Lead Score</button>
+            </form>
+            <div id="genScoreResult" class="output">
+                <div class="shimmer-loader"></div>
+            </div>
+        </div>
+
+    <script>
+        // Tab switching functionality
+        function showTab(id) {
+            // Hide all form sections
+            const sections = document.querySelectorAll('.form-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show the selected section
+            document.getElementById(id).classList.add('active');
+            
+            // Update tab highlighting
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        // Generic form handler for form-data submissions
+        async function submitForm(e, url, resultId) {
+            e.preventDefault(); // Stop page from reloading
+            
+            const btn = e.target.querySelector('button');
+            const output = document.getElementById(resultId);
+            
+            // UI Feedback: Show loading state
+            const originalText = btn.textContent;
+            btn.textContent = "AI is thinking...";
+            btn.disabled = true;
+            output.style.display = 'none';
+
+            const formData = new FormData(e.target);
+            const jsonData = Object.fromEntries(formData);
+
+            try {
+                // Send data to Backend as JSON for API endpoints
+                const res = await fetch(url, { 
+                    method: 'POST', 
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(jsonData)
+                });
+                
+                if (!res.ok) {
+                    throw new Error(`Server Error: ${res.status}`);
+                }
+
+                const data = await res.json();
+                
+                // Show Result
+                if(data.error) {
+                    output.textContent = "Error: " + data.error;
+                    output.style.color = "red";
+                } else {
+                    // Format complex JSON responses nicely
+                    if(typeof data.result === 'object') {
+                        output.innerHTML = `<pre>${JSON.stringify(data.result, null, 2)}</pre>`;
+                    } else {
+                        output.textContent = data.result;
+                    }
+                    output.style.color = "#333";
+                }
+                output.style.display = 'block';
+
+            } catch (err) {
+                console.error(err);
+                output.textContent = "Error connecting to server. Check terminal for details.";
+                output.style.display = 'block';
+                output.style.color = "red";
+            } finally {
+                // Reset button
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // NEW: JSON-based form handler for Generator Hub modules with shimmer loading
+        async function submitFormJSON(e, url, resultId) {
+            e.preventDefault();
+            
+            const btn = e.target.querySelector('button');
+            const output = document.getElementById(resultId);
+            
+            // Show shimmer loading effect
+            const originalText = btn.textContent;
+            btn.textContent = "✨ Generating with AI...";
+            btn.disabled = true;
+            
+            // Display shimmer loader
+            output.innerHTML = `
+                <div class="shimmer-loading-container">
+                    <div class="shimmer-loader"></div>
+                    <div class="shimmer-loader"></div>
+                    <div class="shimmer-loader"></div>
+                </div>
+            `;
+            output.style.display = 'block';
+
+            const formData = new FormData(e.target);
+            const jsonData = Object.fromEntries(formData);
+
+            try {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(jsonData)
+                });
+
+                if (!res.ok) {
+                    throw new Error(`Server Error: ${res.status}`);
+                }
+
+                const data = await res.json();
+
+                // Remove shimmer and show results
+                if(data.error) {
+                    output.innerHTML = `<div style="color: var(--danger-color);">❌ Error: ${data.error}</div>`;
+                } else {
+                    // Format JSON response with syntax highlighting
+                    const jsonString = JSON.stringify(data.result, null, 2);
+                    output.innerHTML = `<pre class="json-output">${escapeHtml(jsonString)}</pre>`;
+                    
+                    // Add action buttons for marketing/sales results
+                    if(url.includes('marketing-campaign')) {
+                        addMarketingActions(output, data.result);
+                    } else if(url.includes('sales-pitch')) {
+                        addPitchActions(output, data.result);
+                    } else if(url.includes('lead-score')) {
+                        addScoreActions(output, data.result);
+                    }
+                }
+                output.style.display = 'block';
+
+            } catch (err) {
+                console.error(err);
+                output.innerHTML = `<div style="color: var(--danger-color);">❌ Error: ${err.message}</div>`;
+                output.style.display = 'block';
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Helper: Escape HTML for safe display
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Add action buttons to marketing campaign results
+        function addMarketingActions(output, data) {
+            const actionsHtml = `
+                <div class="result-actions">
+                    <button class="action-btn" onclick="copyToClipboard('${escapeHtml(JSON.stringify(data.ad_copy_variations[0]))}')">
+                        📋 Copy Ad Copy #1
+                    </button>
+                    <button class="action-btn" onclick="copyToClipboard('${escapeHtml(JSON.stringify(data.platform_specific_ctas))}')">
+                        🔗 Copy CTAs
+                    </button>
+                    <button class="action-btn" onclick="alert('Campaign exported!')">
+                        📊 Export Campaign
+                    </button>
+                </div>
+            `;
+            output.innerHTML += actionsHtml;
+        }
+
+        // Add action buttons to sales pitch results
+        function addPitchActions(output, data) {
+            const actionsHtml = `
+                <div class="result-actions">
+                    <button class="action-btn" onclick="copyToClipboard('${escapeHtml(data.elevator_pitch_30sec)}')">
+                        📋 Copy 30-Sec Pitch
+                    </button>
+                    <button class="action-btn" onclick="copyToClipboard('${escapeHtml(JSON.stringify(data.discovery_questions))}')">
+                        ❓ Copy Questions
+                    </button>
+                    <button class="action-btn" onclick="alert('Pitch saved to CRM!')">
+                        💾 Save to CRM
+                    </button>
+                </div>
+            `;
+            output.innerHTML += actionsHtml;
+        }
+
+        // Add action buttons to lead score results
+        function addScoreActions(output, data) {
+            const scoreColor = data.lead_score >= 80 ? '#10b981' : data.lead_score >= 50 ? '#f59e0b' : '#ef4444';
+            const actionsHtml = `
+                <div class="result-actions">
+                    <div style="color: ${scoreColor}; font-weight: bold; margin-bottom: 10px;">
+                        Lead Score: ${data.lead_score}/100 | Conversion: ${data.conversion_probability}%
+                    </div>
+                    <button class="action-btn" onclick="copyToClipboard('${escapeHtml(data.recommended_action)}')">
+                        ✉️ Copy Next Step
+                    </button>
+                    <button class="action-btn" onclick="copyToClipboard('${escapeHtml(data.sales_strategy)}')">
+                        🎯 Copy Strategy
+                    </button>
+                    <button class="action-btn" onclick="alert('Lead added to pipeline!')">
+                        ➕ Add to Pipeline
+                    </button>
+                </div>
+            `;
+            output.innerHTML += actionsHtml;
+        }
+
+        // Utility: Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✓ Copied to clipboard!');
+            }).catch(err => console.error('Failed to copy:', err));
+        }
+
+        // Chat handler for the chatbot
+        let chatMessages = [];
+        async function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const message = input.value;
+            const history = document.getElementById('chatHistory');
+
+            // Add user message to display
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user';
+            userMsg.textContent = message;
+            history.appendChild(userMsg);
+
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = "...";
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: message, history: chatMessages})
+                });
+
+                const data = await res.json();
+                
+                // Add bot response to display
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-message bot';
+                botMsg.textContent = data.response || 'Error: No response';
+                history.appendChild(botMsg);
+
+                // Track message history
+                chatMessages.push({role: 'user', content: message});
+                chatMessages.push({role: 'assistant', content: data.response});
+
+                // Scroll to bottom
+                history.scrollTop = history.scrollHeight;
+
+            } catch (err) {
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'chat-message bot';
+                errorMsg.textContent = 'Error: ' + err.message;
+                history.appendChild(errorMsg);
+            } finally {
+                input.value = '';
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+
+</body>
+</html>
